@@ -1,16 +1,3 @@
-
-def lexer(texto):
-    textoDividido =texto.split()
-    print(texto.split())
-
-    for palabra in textoDividido:
-          print("La palabra es: "+ palabra)
-          afd_si(palabra)
-          afd_id(palabra)
-
- 
-
-
 def afd_id(cadena):
     estadoActual= 'A'
     estadoFinal = 'Z'
@@ -57,5 +44,4 @@ afd_si("a")
  '''
 
  
-resultado = lexer("si agustin finsi 1")
 
