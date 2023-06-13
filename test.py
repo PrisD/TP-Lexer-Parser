@@ -654,6 +654,7 @@ def afd_num (lexema):
 
 
 
+# LEXER VIDEO DE HERNAN
 
 def lexer(codigo_fuente):
     tokens = []
