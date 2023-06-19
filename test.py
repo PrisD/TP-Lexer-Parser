@@ -1,9 +1,8 @@
 ESTADO_NO_FINAL = 'ESTADO NO FINAL'
 ESTADO_ACEPTADO = 'ESTADO ACEPTADO'
 ESTADO_TRAMPA = 'ESTADO TRAMPA'
-TOKENS_POSIBLES = [("(", afd_parentesis_abre),(")", afd_parentesis_cierra),(";", afd_punto_coma),("finfunc", afd_finfunc),("entonces",afd_entonces),("mostrar", afd_mostrar),
-                   ("repetir",afd_repetir),("opsuma", afd_opsuma),("opmult", afd_opmult),("oprel", afd_oprel),("equal", afd_equal),("func", afd_func),("finsi", afd_finsi),
-                    ("hasta", afd_hasta),("leer", afd_leer),("sino", afd_sino),("si", afd_si),("id", afd_id),("num", afd_num)]
+
+# Moví los TOKENS_POSIBLES debajo de los "def afd", xq tiraba error x alguna razon
 
 # LOS AUTOMATAS ESTAN EN EL ORDEN MISMO QUE POSEEN LOS TOKEN
 
@@ -47,7 +46,6 @@ def afd_parentesis_cierra (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 
 
 def afd_punto_coma (lexema):
@@ -583,7 +581,6 @@ def afd_sino (lexema):
     else:
         return ESTADO_NO_FINAL
 
-
 def afd_si (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -635,13 +632,13 @@ def afd_num (lexema):
     estado_final = 'Z'
     estado_trampa = 'X'
     for caracter in lexema:
-        if estado_actual == 'A' and caracter.isnum():
+        if estado_actual == 'A' and caracter.isdigit():
             estado_actual = 'Z'
-        elif estado_actual == 'A' and not caracter.isnum():
+        elif estado_actual == 'A' and not caracter.isdigit():
             estado_actual = 'X'
-        elif estado_actual == 'Z' and caracter.isnum():
+        elif estado_actual == 'Z' and caracter.isdigit():
             estado_actual = 'Z'
-        elif estado_actual == 'Z' and not caracter.isnum():
+        elif estado_actual == 'Z' and not caracter.isdigit():
             estado_actual = 'X'
         elif estado_actual == 'X' and caracter.isascii():
             estado_actual = 'X'
@@ -652,7 +649,9 @@ def afd_num (lexema):
     else:
         return ESTADO_NO_FINAL
 
-
+TOKENS_POSIBLES = [("(", afd_parentesis_abre),(")", afd_parentesis_cierra),(";", afd_punto_coma),("finfunc", afd_finfunc),("entonces",afd_entonces),("mostrar", afd_mostrar),
+                   ("repetir",afd_repetir),("opsuma", afd_opsuma),("opmult", afd_opmult),("oprel", afd_oprel),("equal", afd_equal),("func", afd_func),("finsi", afd_finsi),
+                    ("hasta", afd_hasta),("leer", afd_leer),("sino", afd_sino),("si", afd_si),("id", afd_id),("num", afd_num)]
 
 # LEXER VIDEO DE HERNAN
 
@@ -693,3 +692,8 @@ def lexer(codigo_fuente):
         tokens.append(token)
     
     return tokens
+
+#print(lexer('si')[0])
+mostrar=lexer('si')
+print(mostrar[0])
+print('hola mundo' )
