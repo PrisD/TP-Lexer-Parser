@@ -562,7 +562,7 @@ def afd_sino (lexema):
             estado_actual = 'C'
         elif estado_actual == 'B' and caracter != 'i':
             estado_actual = 'X'
-        elif estado_actual == 'c' and caracter == 'n':
+        elif estado_actual == 'C' and caracter == 'n':
             estado_actual = 'D'
         elif estado_actual == 'C' and caracter != 'n':
             estado_actual = 'X'
@@ -580,6 +580,7 @@ def afd_sino (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
+
 
 def afd_si (lexema):
     estado_actual = 'A'
@@ -605,7 +606,7 @@ def afd_si (lexema):
     else:
         return ESTADO_NO_FINAL
     
-
+  
 def afd_id (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -617,6 +618,8 @@ def afd_id (lexema):
             estado_actual = 'X'
         elif estado_actual == 'Z' and caracter.isalnum():
             estado_actual = 'Z'
+        elif estado_actual == 'Z' and not caracter.isalnum():
+            estado_actual = 'X'
         elif estado_actual == 'X' and caracter.isascii():
             estado_actual = 'X'
     if  estado_actual == estado_final:
@@ -625,7 +628,7 @@ def afd_id (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-    
+
 
 def afd_num (lexema):
     estado_actual = 'A'
@@ -648,6 +651,7 @@ def afd_num (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
+    
 
 TOKENS_POSIBLES = [("(", afd_parentesis_abre),(")", afd_parentesis_cierra),(";", afd_punto_coma),("finfunc", afd_finfunc),("entonces",afd_entonces),("mostrar", afd_mostrar),
                    ("repetir",afd_repetir),("opsuma", afd_opsuma),("opmult", afd_opmult),("oprel", afd_oprel),("equal", afd_equal),("func", afd_func),("finsi", afd_finsi),
@@ -668,7 +672,7 @@ def lexer(codigo_fuente):
         lexema = ""
         todos_trampa = False
 
-        while not todos_trampa: # todavia hay posibles
+        while todos_trampa == False and posicion_actual <= len(codigo_fuente): # todavia hay posibles
             todos_trampa = True
             lexema = codigo_fuente[comienzo_lexema:posicion_actual+1]
             posibles_tokens = posibles_tokens_un_caracter_mas
@@ -692,8 +696,32 @@ def lexer(codigo_fuente):
         tokens.append(token)
     
     return tokens
+    
 
-#print(lexer('si')[0])
-mostrar=lexer('si')
-print(mostrar[0])
-print('hola mundo' )
+print ('hola peton')
+print(lexer('entonces si'))
+print('hola peton')
+
+
+
+
+# LEXER NUESTRO
+
+''' def lexer (codigo):
+    tokens = []
+    posActual= 0
+    while posActual < len (codigo):
+        while codigo[posActual].isspace():
+            posActual ++1
+        inicio = posActual
+        tokenP = []
+        tokenPMas1 = []
+        lexema = ""
+        enTrampa = False
+        while not enTrampa:
+            enTrampa = True
+            lexema[inicio:posActual] '''
+
+
+
+

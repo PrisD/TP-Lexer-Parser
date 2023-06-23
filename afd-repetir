@@ -1,6 +1,6 @@
 
 
-estado_actual = 'A'
+estado_actual = 'A' ("id", afd_id),
 estados_finales = 'Z'
 
         if estado_actual == 'A' and caracter == 'r':
