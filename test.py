@@ -2,11 +2,9 @@ ESTADO_NO_FINAL = 'ESTADO NO FINAL'
 ESTADO_ACEPTADO = 'ESTADO ACEPTADO'
 ESTADO_TRAMPA = 'ESTADO TRAMPA'
 
-# Moví los TOKENS_POSIBLES debajo de los "def afd", xq tiraba error x alguna razon
-
 # LOS AUTOMATAS ESTAN EN EL ORDEN MISMO QUE POSEEN LOS TOKEN
 
-def afd_parentesis_abre (lexema):
+def afd_par_abre (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
     estado_trampa = 'X'
@@ -26,8 +24,7 @@ def afd_parentesis_abre (lexema):
     else:
         return ESTADO_NO_FINAL
 
-
-def afd_parentesis_cierra (lexema):
+def afd_par_cierra (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
     estado_trampa = 'X'
@@ -46,7 +43,6 @@ def afd_parentesis_cierra (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 
 def afd_punto_coma (lexema):
     estado_actual = 'A'
@@ -67,7 +63,6 @@ def afd_punto_coma (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 
 def afd_finfunc (lexema):
     estado_actual = 'A'
@@ -112,7 +107,6 @@ def afd_finfunc (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 
 def afd_entonces (lexema):
     estado_actual = 'A'
@@ -162,7 +156,6 @@ def afd_entonces (lexema):
     else:
         return ESTADO_NO_FINAL
 
-
 def afd_mostrar (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -206,7 +199,6 @@ def afd_mostrar (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 
 def afd_repetir (lexema):
     estado_actual = 'A'
@@ -252,7 +244,6 @@ def afd_repetir (lexema):
     else:
         return ESTADO_NO_FINAL
 
-
 def afd_opsuma (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -292,7 +283,6 @@ def afd_opsuma (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 
 def afd_opmult (lexema):
     estado_actual = 'A'
@@ -334,7 +324,6 @@ def afd_opmult (lexema):
     else:
         return ESTADO_NO_FINAL
 
-
 def afd_oprel (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -370,7 +359,6 @@ def afd_oprel (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 
 def afd_equal (lexema):
     estado_actual = 'A'
@@ -408,7 +396,6 @@ def afd_equal (lexema):
     else:
         return ESTADO_NO_FINAL
 
-
 def afd_func (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -440,7 +427,6 @@ def afd_func (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 
 def afd_finsi (lexema):
     estado_actual = 'A'
@@ -478,7 +464,6 @@ def afd_finsi (lexema):
     else:
         return ESTADO_NO_FINAL
 
-
 def afd_hasta (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -515,7 +500,6 @@ def afd_hasta (lexema):
     else:
         return ESTADO_NO_FINAL
 
-
 def afd_leer (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -547,7 +531,6 @@ def afd_leer (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 
 def afd_sino (lexema):
     estado_actual = 'A'
@@ -581,7 +564,6 @@ def afd_sino (lexema):
     else:
         return ESTADO_NO_FINAL
 
-
 def afd_si (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -605,8 +587,7 @@ def afd_si (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-    
-  
+     
 def afd_id (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -628,7 +609,6 @@ def afd_id (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 
 def afd_num (lexema):
     estado_actual = 'A'
@@ -653,75 +633,45 @@ def afd_num (lexema):
         return ESTADO_NO_FINAL
     
 
-TOKENS_POSIBLES = [("(", afd_parentesis_abre),(")", afd_parentesis_cierra),(";", afd_punto_coma),("finfunc", afd_finfunc),("entonces",afd_entonces),("mostrar", afd_mostrar),
+TOKENS_POSIBLES = [("(", afd_par_abre),(")", afd_par_cierra),(";", afd_punto_coma),("finfunc", afd_finfunc),("entonces",afd_entonces),("mostrar", afd_mostrar),
                    ("repetir",afd_repetir),("opsuma", afd_opsuma),("opmult", afd_opmult),("oprel", afd_oprel),("equal", afd_equal),("func", afd_func),("finsi", afd_finsi),
                     ("hasta", afd_hasta),("leer", afd_leer),("sino", afd_sino),("si", afd_si),("id", afd_id),("num", afd_num)]
 
-# LEXER VIDEO DE HERNAN
 
-def lexer(codigo_fuente):
+def lexer(codigo):
     tokens = []
-    posicion_actual = 0
-    while posicion_actual < len(codigo_fuente):
-        while codigo_fuente[posicion_actual].isspace():  # salta los espacios (x)
-            posicion_actual = posicion_actual + 1
+    posActual = 0
+    while posActual < len(codigo):
+        while codigo[posActual].isspace():  # salta los espacios en blanco
+            posActual = posActual + 1
         
-        comienzo_lexema = posicion_actual
-        posibles_tokens = []
-        posibles_tokens_un_caracter_mas = []
+        inicio_lexema = posActual
+        tokens_Posi = []
+        tokens_Posi_mas1 = []
         lexema = ""
         todos_trampa = False
 
-        while todos_trampa == False and posicion_actual <= len(codigo_fuente): # todavia hay posibles
+        while todos_trampa == False and posActual <= len(codigo):        # todavia hay posibles
             todos_trampa = True
-            lexema = codigo_fuente[comienzo_lexema:posicion_actual+1]
-            posibles_tokens = posibles_tokens_un_caracter_mas
-            posibles_tokens_un_caracter_mas = []
+            lexema = codigo[inicio_lexema:posActual+1]
+            tokens_Posi = tokens_Posi_mas1
+            tokens_Posi_mas1 = []
 
-            for (un_token, afd) in TOKENS_POSIBLES: # analiza todos los automatas
+            for (un_token, afd) in TOKENS_POSIBLES:                    # analiza todos los automatas
                 simulacion_afd = afd(lexema)
                 if simulacion_afd == ESTADO_ACEPTADO:
-                    posibles_tokens_un_caracter_mas.append(un_token)
+                    tokens_Posi_mas1.append(un_token)
                     todos_trampa = False
                 elif simulacion_afd == ESTADO_NO_FINAL:
-                    todos_trampa = False
-                
-            posicion_actual = posicion_actual + 1 
+                    todos_trampa = False  
+                    
+            posActual = posActual + 1 
         
-        if len(posibles_tokens) == 0:
+        if len(tokens_Posi) == 0:
             print("error: token desconocido" + lexema)
-        
-        un_token = posibles_tokens [0] # devuelve segun orden de precedencia (id va al final)
-        token = (un_token, lexema)
+        un_token = tokens_Posi [0]                                   # devuelve segun orden de precedencia en array TOKENS_POSIBLES
+        token = (un_token, lexema)   
         tokens.append(token)
-    
     return tokens
     
-
-print ('hola peton')
-print(lexer('entonces si'))
-print('hola peton')
-
-
-
-
-# LEXER NUESTRO
-
-''' def lexer (codigo):
-    tokens = []
-    posActual= 0
-    while posActual < len (codigo):
-        while codigo[posActual].isspace():
-            posActual ++1
-        inicio = posActual
-        tokenP = []
-        tokenPMas1 = []
-        lexema = ""
-        enTrampa = False
-        while not enTrampa:
-            enTrampa = True
-            lexema[inicio:posActual] '''
-
-
-
-
+print(lexer('(*x(;x abcdefghijklmno 123 123abc abc123 si entonces finsi fin-si entoncessi (FUNCIONA) Funciona? opsuma opmult'))

@@ -1,5 +1,0 @@
-vstring = '(tftyfyt'
-pos = 0
-a = pos
-x = vstring[a+1:pos+2]
-print( x)
