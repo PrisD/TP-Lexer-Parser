@@ -23,7 +23,6 @@ def afd_par_abre (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 def afd_par_cierra (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -43,7 +42,6 @@ def afd_par_cierra (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 def afd_punto_coma (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -63,7 +61,6 @@ def afd_punto_coma (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 def afd_finfunc (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -107,7 +104,6 @@ def afd_finfunc (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 def afd_entonces (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -155,7 +151,6 @@ def afd_entonces (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 def afd_mostrar (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -199,7 +194,6 @@ def afd_mostrar (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 def afd_repetir (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -243,7 +237,6 @@ def afd_repetir (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 def afd_opsuma (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -283,7 +276,6 @@ def afd_opsuma (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 def afd_opmult (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -323,7 +315,6 @@ def afd_opmult (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 def afd_oprel (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -359,7 +350,6 @@ def afd_oprel (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 def afd_equal (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -395,7 +385,6 @@ def afd_equal (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 def afd_func (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -427,7 +416,6 @@ def afd_func (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 def afd_finsi (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -463,7 +451,6 @@ def afd_finsi (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 def afd_hasta (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -499,7 +486,6 @@ def afd_hasta (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 def afd_leer (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -531,7 +517,6 @@ def afd_leer (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 def afd_sino (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -563,7 +548,6 @@ def afd_sino (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 def afd_si (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -586,8 +570,7 @@ def afd_si (lexema):
     elif estado_actual == estado_trampa:
         return ESTADO_TRAMPA
     else:
-        return ESTADO_NO_FINAL
-     
+        return ESTADO_NO_FINAL     
 def afd_id (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -609,7 +592,6 @@ def afd_id (lexema):
         return ESTADO_TRAMPA
     else:
         return ESTADO_NO_FINAL
-
 def afd_num (lexema):
     estado_actual = 'A'
     estado_final = 'Z'
@@ -630,13 +612,11 @@ def afd_num (lexema):
     elif estado_actual == estado_trampa:
         return ESTADO_TRAMPA
     else:
-        return ESTADO_NO_FINAL
-    
+        return ESTADO_NO_FINAL    
 
-TOKENS_POSIBLES = [("(", afd_par_abre),(")", afd_par_cierra),(";", afd_punto_coma),("finfunc", afd_finfunc),("entonces",afd_entonces),("mostrar", afd_mostrar),
+TOKENS_POSIBLES = [("par abre", afd_par_abre),("par cierra", afd_par_cierra),("punto coma", afd_punto_coma),("finfunc", afd_finfunc),("entonces",afd_entonces),("mostrar", afd_mostrar),
                    ("repetir",afd_repetir),("opsuma", afd_opsuma),("opmult", afd_opmult),("oprel", afd_oprel),("equal", afd_equal),("func", afd_func),("finsi", afd_finsi),
                     ("hasta", afd_hasta),("leer", afd_leer),("sino", afd_sino),("si", afd_si),("id", afd_id),("num", afd_num)]
-
 
 def lexer(codigo):
     tokens = []
@@ -651,13 +631,13 @@ def lexer(codigo):
         lexema = ""
         todos_trampa = False
 
-        while todos_trampa == False and posActual <= len(codigo):        # todavia hay posibles
+        while todos_trampa == False and posActual <= len(codigo):  # todavia hay posibles
             todos_trampa = True
             lexema = codigo[inicio_lexema:posActual+1]
             tokens_Posi = tokens_Posi_mas1
             tokens_Posi_mas1 = []
 
-            for (un_token, afd) in TOKENS_POSIBLES:                    # analiza todos los automatas
+            for (un_token, afd) in TOKENS_POSIBLES:  # analiza todos los automatas
                 simulacion_afd = afd(lexema)
                 if simulacion_afd == ESTADO_ACEPTADO:
                     tokens_Posi_mas1.append(un_token)
@@ -669,9 +649,16 @@ def lexer(codigo):
         
         if len(tokens_Posi) == 0:
             print("error: token desconocido" + lexema)
-        un_token = tokens_Posi [0]                                   # devuelve segun orden de precedencia en array TOKENS_POSIBLES
-        token = (un_token, lexema)   
+            
+        un_token = tokens_Posi [0]  # devuelve segun orden de precedencia en array TOKENS_POSIBLES
+
+        if lexema[-1] == " ":
+            token = (un_token, lexema[:-1])  # elimina espacios sobrantes
+        else:
+            token = (un_token, lexema) 
         tokens.append(token)
     return tokens
-    
-print(lexer('(*x(;x abcdefghijklmno 123 123abc abc123 si entonces finsi fin-si entoncessi (FUNCIONA) Funciona? opsuma opmult'))
+
+# EL CODIGO REQUIERE DE ESPACIOS ENTRE TIPOS DE TOKEN PARA FUNCIONAR -- EJEMPLO BIEN 'si aux12 equal 45 repetir hasta' -- EJEMPLO MAL '()x; 123a'
+
+print(lexer('aux12 4353453 ( ) '))  
