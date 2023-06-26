@@ -616,43 +616,43 @@ def afd_num (lexema):
 
 TOKENS_POSIBLES = [("par abre", afd_par_abre),("par cierra", afd_par_cierra),("punto coma", afd_punto_coma),("finfunc", afd_finfunc),("entonces",afd_entonces),("mostrar", afd_mostrar),
                    ("repetir",afd_repetir),("opsuma", afd_opsuma),("opmult", afd_opmult),("oprel", afd_oprel),("equal", afd_equal),("func", afd_func),("finsi", afd_finsi),
-                    ("hasta", afd_hasta),("leer", afd_leer),("sino", afd_sino),("si", afd_si),("id", afd_id),("num", afd_num)]
+                    ("hasta", afd_hasta),("leer", afd_leer),("sino", afd_sino),("si", afd_si),("id", afd_id),("num", afd_num),("desconocido", afd_id)]
 
 def lexer(codigo):
     tokens = []
-    posActual = 0
+    posActual = 0  # pos es referencia a posicion
     while posActual < len(codigo):
-        while codigo[posActual].isspace():  # salta los espacios en blanco
+        while posActual < len(codigo) and codigo[posActual].isspace():  # salta los espacios en blanco
             posActual = posActual + 1
         
         inicio_lexema = posActual
-        tokens_Posi = []
-        tokens_Posi_mas1 = []
+        tokens_Posible = []
+        tokens_Posible_mas1 = []  # mas1 hace referencia a calcular un token posible agregando un caracter al lexema
         lexema = ""
         todos_trampa = False
 
         while todos_trampa == False and posActual <= len(codigo):  # todavia hay posibles
             todos_trampa = True
             lexema = codigo[inicio_lexema:posActual+1]
-            tokens_Posi = tokens_Posi_mas1
-            tokens_Posi_mas1 = []
+            tokens_Posible = tokens_Posible_mas1
+            tokens_Posible_mas1 = []
 
             for (un_token, afd) in TOKENS_POSIBLES:  # analiza todos los automatas
                 simulacion_afd = afd(lexema)
                 if simulacion_afd == ESTADO_ACEPTADO:
-                    tokens_Posi_mas1.append(un_token)
+                    tokens_Posible_mas1.append(un_token)
                     todos_trampa = False
                 elif simulacion_afd == ESTADO_NO_FINAL:
                     todos_trampa = False  
                     
             posActual = posActual + 1 
         
-        if len(tokens_Posi) == 0:
-            print("error: token desconocido" + lexema)
-            
-        un_token = tokens_Posi [0]  # devuelve segun orden de precedencia en array TOKENS_POSIBLES
+        if len(tokens_Posible) == 0:
+            print("error: token desconocido " + "'" + lexema + "'")
+        else:
+            un_token = tokens_Posible [0]  # devuelve segun orden de precedencia en array TOKENS_POSIBLES
 
-        if lexema[-1] == " ":
+        if len(lexema) > 0 and lexema[-1] == " ":
             token = (un_token, lexema[:-1])  # elimina espacios sobrantes
         else:
             token = (un_token, lexema) 
@@ -661,4 +661,5 @@ def lexer(codigo):
 
 # EL CODIGO REQUIERE DE ESPACIOS ENTRE TIPOS DE TOKEN PARA FUNCIONAR -- EJEMPLO BIEN 'si aux12 equal 45 repetir hasta' -- EJEMPLO MAL '()x; 123a'
 
-print(lexer('aux12 4353453 ( ) '))  
+print(lexer('a '))
+  
