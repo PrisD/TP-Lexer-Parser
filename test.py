@@ -242,29 +242,11 @@ def afd_opsuma (lexema):
     estado_final = 'Z'
     estado_trampa = 'X'
     for caracter in lexema:
-        if estado_actual == 'A' and caracter == 'o':
-            estado_actual = 'B'
-        elif estado_actual == 'A' and caracter != 'o':
-            estado_actual = 'X'
-        elif estado_actual == 'B' and caracter == 'p':
-            estado_actual = 'C'
-        elif estado_actual == 'B' and caracter != 'p':
-            estado_actual = 'X'
-        elif estado_actual == 'C' and caracter == 's':
-            estado_actual = 'D'
-        elif estado_actual == 'C' and caracter != 's':
-            estado_actual = 'X'
-        elif estado_actual == 'D' and caracter == 'u':
-            estado_actual = 'E'
-        elif estado_actual == 'D' and caracter != 'u':
-            estado_actual = 'X'
-        elif estado_actual == 'E' and caracter == 'm':
-            estado_actual = 'F'
-        elif estado_actual == 'E' and caracter != 'm':
-            estado_actual = 'X'
-        elif estado_actual == 'F' and caracter == 'a':
+        if estado_actual == 'A' and caracter == '+':
             estado_actual = 'Z'
-        elif estado_actual == 'F' and caracter != 'a':
+        elif estado_actual == 'A' and caracter == '-':
+            estado_actual = 'Z'
+        elif estado_actual == 'A' and caracter != '+' and caracter != '-':
             estado_actual = 'X'
         elif estado_actual == 'Z' and caracter.isascii():
             estado_actual = 'X'
@@ -281,30 +263,12 @@ def afd_opmult (lexema):
     estado_final = 'Z'
     estado_trampa = 'X'
     for caracter in lexema:
-        if estado_actual == 'A' and caracter == 'o':
-            estado_actual = 'B'
-        elif estado_actual == 'A' and caracter != 'o':
-            estado_actual = 'X'
-        elif estado_actual == 'B' and caracter == 'p':
-            estado_actual = 'C'
-        elif estado_actual == 'B' and caracter != 'p':
-            estado_actual = 'X'
-        elif estado_actual == 'C' and caracter == 'm':
-            estado_actual = 'D'
-        elif estado_actual == 'C' and caracter != 'm':
-            estado_actual = 'X'
-        elif estado_actual == 'D' and caracter == 'u':
-            estado_actual = 'E'
-        elif estado_actual == 'D' and caracter != 'u':
-            estado_actual = 'X'
-        elif estado_actual == 'E' and caracter == 'l':
-            estado_actual = 'F'
-        elif estado_actual == 'E' and caracter != 'l':
-            estado_actual = 'X'
-        elif estado_actual == 'F' and caracter == 't':
+        if estado_actual == 'A' and caracter == '*':
             estado_actual = 'Z'
-        elif estado_actual == 'F' and caracter != 't':
+        elif estado_actual == 'A' and caracter == '/':
             estado_actual = 'Z'
+        elif estado_actual == 'A' and caracter != '*' and caracter != '/':
+            estado_actual = 'X'
         elif estado_actual == 'Z' and caracter.isascii():
             estado_actual = 'X'
         elif estado_actual == 'X' and caracter.isascii():
@@ -320,25 +284,17 @@ def afd_oprel (lexema):
     estado_final = 'Z'
     estado_trampa = 'X'
     for caracter in lexema:
-        if estado_actual == 'A' and caracter == 'o':
-            estado_actual = 'B'
-        elif estado_actual == 'A' and caracter != 'o':
-            estado_actual = 'X'
-        elif estado_actual == 'B' and caracter == 'p':
-            estado_actual = 'C'
-        elif estado_actual == 'B' and caracter != 'p':
-            estado_actual = 'X'
-        elif estado_actual == 'C' and caracter == 'r':
-            estado_actual = 'D'
-        elif estado_actual == 'C' and caracter != 'r':
-            estado_actual = 'X'
-        elif estado_actual == 'D' and caracter == 'e':
-            estado_actual = 'E'
-        elif estado_actual == 'D' and caracter != 'e':
-            estado_actual = 'X'
-        elif estado_actual == 'E' and caracter == 'l':
+        if estado_actual == 'A' and caracter == '=':
             estado_actual = 'Z'
-        elif estado_actual == 'E' and caracter != 'l':
+        elif estado_actual == 'A' and caracter == '<':
+            estado_actual = 'Z'
+        elif estado_actual == 'A' and caracter == '>':
+            estado_actual = 'Z'
+        elif estado_actual == 'A' and caracter == '<=':
+            estado_actual = 'Z'
+        elif estado_actual == 'A' and caracter == '>=':
+            estado_actual = 'Z'
+        elif estado_actual == 'A' and caracter != '=' and caracter != '<' and caracter != '>' and caracter != '<=' and caracter != '>=':
             estado_actual = 'X'
         elif estado_actual == 'Z' and caracter.isascii():
             estado_actual = 'X'
@@ -653,7 +609,7 @@ def lexer(codigo):
             un_token = tokens_Posible [0]  # devuelve segun orden de precedencia en array TOKENS_POSIBLES
 
         if len(lexema) > 0 and lexema[-1] == " ":
-            token = (un_token, lexema[:-1])  # elimina espacios sobrantes
+            token = (un_token, lexema[:-1])  # elimina espacios sobrantes (menos el final de la cadena)
         else:
             token = (un_token, lexema) 
         tokens.append(token)
@@ -661,5 +617,5 @@ def lexer(codigo):
 
 # EL CODIGO REQUIERE DE ESPACIOS ENTRE TIPOS DE TOKEN PARA FUNCIONAR -- EJEMPLO BIEN 'si aux12 equal 45 repetir hasta' -- EJEMPLO MAL '()x; 123a'
 
-print(lexer('a '))
+print(lexer('$45 + 34 = 79'))
   
