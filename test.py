@@ -615,7 +615,6 @@ def lexer(codigo):
         tokens.append(token)
     return tokens
 
-# EL CODIGO REQUIERE DE ESPACIOS ENTRE TIPOS DE TOKEN PARA FUNCIONAR -- EJEMPLO BIEN 'si aux12 equal 45 repetir hasta' -- EJEMPLO MAL '()x; 123a'
+# EL CODIGO REQUIERE DE ESPACIOS ENTRE TIPOS DE TOKEN PARA FUNCIONAR -- EJEMPLO BIEN 'si aux12 equal 45 repetir hasta' -- EJEMPLO MAL 'siaux12equal 45repetirhasta'
 
-print(lexer('$45 + 34 = 79'))
-  
+print(lexer('repetir 3 < var hasta 6'))
