@@ -31,10 +31,15 @@ con las mismas consideraciones que allí fue indicado.
 Por cuestiones de claridad, la gramática G=<VN, VT, P, S> se repite completa para
 """
 
+VNT = ["Programa","ListaSentencias","LS","Sentencias","SS","SentenciaSi","SentenciaRepetir","SentenciaAsig","SentenciaLeer","SentenciaMostrar","SentenciaFun","Proc","ListaPar","LP","Expresion","E","Exprecion2","E2","Termino","T","Factor"]
+VT = lexerTp.TOKENS_POSIBLES
+
+tokens= lexerTp.lexer("")
+
 diccionario = {
     "Programa": [["ListaSentencias"]],
     "ListaSentencias" : [["Sentencias","LS"]], 
-    "LS": [[" "],[";","ListaSentencias"]],
+    "LS": [[""],[";","ListaSentencias"]],
     "Sentencias" : [["SentenciaSi"],["SentenciaRepetir"],["SentenciaAsig"],["SentenciaLeer"],["SentenciaMostrar"],["SentenciaFun"]],
     "SentenciaSi": [["si","Expresion", "entonces","ListaSentencias"],"SS"],
     "SS": [["finsi"],["sino","ListaSentencias","finsi"]],
@@ -45,17 +50,14 @@ diccionario = {
     "SentenciaFun": [["func","Proc","finfunc"]],
     "Proc": [["id","(","ListaPar",")","ListaSentencias"]],
     "ListaPar": [["id","LP"]],
-    "LP": [[" "],[";","ListaPar"]],
+    "LP": [[""],[";","ListaPar"]],
     "Expresion": [["Exprecion2","E"]],
-    "E": [[" "],["oprel","Exprecion2"]],
+    "E": [[""],["oprel","Exprecion2"]],
     "Exprecion2": [["Termino","E2"]],
-    "E2": [[" "],["opsuma","E2"]],
+    "E2": [[""],["opsuma","E2"]],
     "Termino": [["Factor","T"]],
-    "T": [[" "],["opmult","Termino"]],
+    "T": [[""],["opmult","Termino"]],
     "Factor": [["id"],["num"],["(","Expresion",")"]]
 }
 
-hola = diccionario.get("ListaSentencias")[0][1]
-print(hola)
-hola = diccionario.get("Programa")[0][0]
-print(hola)
+first()
