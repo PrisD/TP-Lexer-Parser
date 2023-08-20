@@ -60,4 +60,24 @@ diccionario = {
     "Factor": [["id"],["num"],["(","Expresion",")"]]
 }
 
-first()
+#Definir funcion primeros donde se define los primeros de cada no terminal, sin incluir no terminales
+# Primeros experimental
+def primeros() :
+    primeros = {}
+    for noTerminal in VNT:
+        primeros[noTerminal] = []
+    for noTerminal in VNT:
+        primeros[noTerminal] = primer(noTerminal)
+    return primeros
+
+def primer(noTerminal):
+    primeros = []
+    for produccion in diccionario[noTerminal]:
+        if produccion[0] in VNT:
+            primeros += primer(produccion[0])
+        else:
+            primeros.append(produccion[0])
+    return primeros
+
+# Proba primeros 
+print(primeros())
