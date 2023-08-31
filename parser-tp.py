@@ -34,50 +34,43 @@ Por cuestiones de claridad, la gramática G=<VN, VT, P, S> se repite completa pa
 VNT = ["Programa","ListaSentencias","LS","Sentencias","SS","SentenciaSi","SentenciaRepetir","SentenciaAsig","SentenciaLeer","SentenciaMostrar","SentenciaFun","Proc","ListaPar","LP","Expresion","E","Exprecion2","E2","Termino","T","Factor"]
 VT = lexerTp.TOKENS_POSIBLES
 
-tokens= lexerTp.lexer("")
+"""
+Simbolos directrices de la gramatica:
 
-diccionario = {
-    "Programa": [["ListaSentencias"]],
-    "ListaSentencias" : [["Sentencias","LS"]], 
-    "LS": [[""],[";","ListaSentencias"]],
-    "Sentencias" : [["SentenciaSi"],["SentenciaRepetir"],["SentenciaAsig"],["SentenciaLeer"],["SentenciaMostrar"],["SentenciaFun"]],
-    "SentenciaSi": [["si","Expresion", "entonces","ListaSentencias"],"SS"],
-    "SS": [["finsi"],["sino","ListaSentencias","finsi"]],
-    "SentenciaRepetir": [["repetir","ListaSentencias","hasta","Expresion"]],
-    "SentenciaAsig": [["id","=","Expresion"]],
-    "SentenciaLeer": [["leer","id"]],
-    "SentenciaMostrar": [["mostrar","Expresion"]],
-    "SentenciaFun": [["func","Proc","finfunc"]],
-    "Proc": [["id","(","ListaPar",")","ListaSentencias"]],
-    "ListaPar": [["id","LP"]],
-    "LP": [[""],[";","ListaPar"]],
-    "Expresion": [["Exprecion2","E"]],
-    "E": [[""],["oprel","Exprecion2"]],
-    "Exprecion2": [["Termino","E2"]],
-    "E2": [[""],["opsuma","E2"]],
-    "Termino": [["Factor","T"]],
-    "T": [[""],["opmult","Termino"]],
-    "Factor": [["id"],["num"],["(","Expresion",")"]]
-}
+sd(p -> ls) = {si,repetir,id,leer,mostrar,func}
+sd(ls -> s ls') = {si,repetir,id,leer,mostrar,func}
+sd(ls' -> lambda) = vacio
+sd(ls' -> ; ls) = {;}
+sd(s -> ss) = {si}
+sd(s -> sr) = {repetir}
+sd(s -> sa) = {id}
+sd(s -> sl) = {leer}
+sd(s -> sm) = {mostrar}
+sd(s -> sf) = {func}
+sd(ss -> si e entonces ls ss') = {si}
+sd(ss' -> finsi) = {finsi}
+sd(ss' -> sino ls finsi) = {sino}
+sd(sr -> repetir ls hasta e) = {repetir}
+sd(sa -> id equal e) =  {id}
+sd(sl -> leer id) =  {leer}
+sd(sm -> mostrar e) =  {mostrar}
+sd(sf -> func pr finfunc) =  {func}
+sd(pr -> id ( lp ) ls) =  {id}
+sd(lp -> id lp') =  {id}
+sd(lp' -> lambda) =  vacio
+sd(lp' -> ; lp) =  {;}
+sd(e -> e2 e') =  {(,num,id}
+sd(e' -> lambda) =  vacio
+sd(e' -> oprel) =  {<,>,=,<=,>=}
+sd(e2 -> t e2') =  {(,num,id}
+sd(e2' -> lambda) =  vacio
+sd(e2' -> opsuma e2) =  {-,+}
+sd(t -> f t') =  {(,num,id}
+sd(t' -> lambda) =  vacio
+sd(t' -> opmult t) =  {/,*}
+sd(f -> ( e )) =  {(}
+sd(f -> num) = {num}
+sd(f -> id) = {id}
 
-#Definir funcion primeros donde se define los primeros de cada no terminal, sin incluir no terminales
-# Primeros experimental
-def primeros() :
-    primeros = {}
-    for noTerminal in VNT:
-        primeros[noTerminal] = []
-    for noTerminal in VNT:
-        primeros[noTerminal] = primer(noTerminal)
-    return primeros
 
-def primer(noTerminal):
-    primeros = []
-    for produccion in diccionario[noTerminal]:
-        if produccion[0] in VNT:
-            primeros += primer(produccion[0])
-        else:
-            primeros.append(produccion[0])
-    return primeros
-
-# Proba primeros 
-print(primeros())
+"""

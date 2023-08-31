@@ -605,14 +605,11 @@ def lexer(codigo):
         
         if len(tokens_Posible) == 0:
             print("error: token desconocido " + "'" + lexema + "'")
-        else:
-            un_token = tokens_Posible [0]  # devuelve segun orden de precedencia en array TOKENS_POSIBLES
 
-        if len(lexema) > 0 and lexema[-1] == " ":
-            token = (un_token, lexema[:-1])  # elimina espacios sobrantes (menos el final de la cadena)
-        else:
-            token = (un_token, lexema) 
+        posActual = posActual - 1
+        un_token = tokens_Posible [0]
+        token = (un_token, codigo[inicio_lexema:posActual]) 
         tokens.append(token)
     return tokens
 
-# EL CODIGO REQUIERE DE ESPACIOS ENTRE TIPOS DE TOKEN PARA FUNCIONAR -- EJEMPLO BIEN 'si aux12 equal 45 repetir hasta' -- EJEMPLO MAL 'siaux12equal 45repetirhasta'
+print(lexer('repetir 3<var hasta 656aux'))
