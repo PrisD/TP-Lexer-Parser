@@ -74,3 +74,34 @@ sd(f -> id) = {id}
 
 
 """
+
+
+
+def parser(codigo):
+    # tablaProducciones = insertarDiccionario
+    posicionActual=0
+    t = codigo[posicionActual]
+    pila = ['#','Program']
+    tope = pila[-1] #Accede al ultimo elemente de la lista
+    while not(tope=='#') and not(t=='#'): #Termina cuando tope y t son '#'
+        if tope in VT:
+            if (tope==t) :
+                pila.pop() #Remueve el ultimo elemento de la lista
+                posicionActual = posicionActual + 1 
+            else:
+                return False
+            
+        else:
+            if 't' in tablaProducciones['tope']: #Se fija si existe una produccion entre el no terminal actual en tope y el terminal al que apunta t
+                produccion = tablaProducciones['tope'].get('t')
+                pila.pop()
+                pila.append(produccion) #Agrega al tope de la pila produccion
+            else:
+                return False
+            
+    return 'La cadena pertenece al lenguaje'
+        
+         
+
+
+
