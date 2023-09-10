@@ -91,8 +91,8 @@ def parser(codigo):
             else:
                  return False
         elif tope in VNT:
-            if  't' in tablaProducciones['tope']: #Se fija si existe una produccion entre el no terminal actual en tope y el terminal al que apunta t
-                produccion = tablaProducciones['tope'].get('t')
+            if  t in tablaProducciones[tope]: #Se fija si existe una produccion entre el no terminal actual en tope y el terminal al que apunta t
+                produccion = tablaProducciones[tope].get(t)
                 pila.pop()
                 pila.append(produccion) #Agrega al tope de la pila produccion
             else:
