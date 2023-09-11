@@ -31,57 +31,92 @@ con las mismas consideraciones que allí fue indicado.
 Por cuestiones de claridad, la gramática G=<VN, VT, P, S> se repite completa para
 """
 
-VNT = ["Programa","ListaSentencias","LS","Sentencias","SS","SentenciaSi","SentenciaRepetir","SentenciaAsig","SentenciaLeer","SentenciaMostrar","SentenciaFun","Proc","ListaPar","LP","Expresion","E","Exprecion2","E2","Termino","T","Factor"]
+VNT = ["Program","ListaSentencias","ListaSentencias*","Sentencia","Sentencia+","SentenciaSi","SentenciaRepetir","SentenciaAsig","SentenciaLeer","SentenciaMostrar","SentenciaFunc","Proc","ListaPar","ListaPar+","Expresion","Expresion+","Expresion2","Expresion2+","Termino","Termino+","Factor"]
 VT = lexerTp.TOKENS_POSIBLES
 
-"""
-Simbolos directrices de la gramatica:
 
-sd(p -> ls) = {si,repetir,id,leer,mostrar,func}
-sd(ls -> s ls') = {si,repetir,id,leer,mostrar,func}
-sd(ls' -> lambda) = vacio
-sd(ls' -> ; ls) = {;}
-sd(s -> ss) = {si}
-sd(s -> sr) = {repetir}
-sd(s -> sa) = {id}
-sd(s -> sl) = {leer}
-sd(s -> sm) = {mostrar}
-sd(s -> sf) = {func}
-sd(ss -> si e entonces ls ss') = {si}
-sd(ss' -> finsi) = {finsi}
-sd(ss' -> sino ls finsi) = {sino}
-sd(sr -> repetir ls hasta e) = {repetir}
-sd(sa -> id equal e) =  {id}
-sd(sl -> leer id) =  {leer}
-sd(sm -> mostrar e) =  {mostrar}
-sd(sf -> func pr finfunc) =  {func}
-sd(pr -> id ( lp ) ls) =  {id}
-sd(lp -> id lp') =  {id}
-sd(lp' -> lambda) =  vacio
-sd(lp' -> ; lp) =  {;}
-sd(e -> e2 e') =  {(,num,id}
-sd(e' -> lambda) =  vacio
-sd(e' -> oprel) =  {<,>,=,<=,>=}
-sd(e2 -> t e2') =  {(,num,id}
-sd(e2' -> lambda) =  vacio
-sd(e2' -> opsuma e2) =  {-,+}
-sd(t -> f t') =  {(,num,id}
-sd(t' -> lambda) =  vacio
-sd(t' -> opmult t) =  {/,*}
-sd(f -> ( e )) =  {(}
-sd(f -> num) = {num}
-sd(f -> id) = {id}
+tablaProducciones = {
+        'Program' : { 'si' : ['ListaSentencias'],
+                    'repetir' : ['ListaSentencias'],
+                    'id' : ['ListaSentencias'],
+                    'leer' : ['ListaSentencias'],
+                    'mostrar' : ['ListaSentencias'],
+                    'func' : ['ListaSentencias'] },
 
+        'ListaSentencias' : { 'si' : ['ListaSentencias'],
+                            'repetir' : ['ListaSentencias'],
+                            'id' : ['ListaSentencias'],
+                            'leer' : ['ListaSentencias'],
+                            'mostrar' : ['ListaSentencias'],
+                            'func' : ['ListaSentencias+'] },
 
-"""
+        'ListaSentencias+' : { ';' : [';' , ' ' , 'Sentencia' , ' ' , 'ListaSentencias+'],
+                            '#' : ['lambda'] },
 
+        'Sentencia' : { 'si' : ['SentenciaSi'],
+                       'repetir' : ['SentenciaRepetir'],
+                       'id' : ['SentenciaAsig'],
+                       'leer' : ['SentenciaLeer'],
+                       'mostrar' : ['SentenciaMostrar'],
+                       'func' : ['SentenciaFunc'] },
+                        
+        'SentenciaSi' : { 'si' : ['si' , ' ' , 'Expresion' , ' ' , 'entonces' , ' ' , 'ListaSentencias' , ' ' , 'SentenciaSi+'] },     
+
+        'SentenciaSi+' : { 'sino' : ['sino' , ' ' , 'ListaSentencia' , ' ' , 'finsi'],
+                           'finsi' : ['finsi'] },
+
+        'SentenciaRepetir' : { 'repetir' : ['repetir' , ' ' , 'ListaSentencias' , ' ' , 'hasta' , ' ' , 'Expresion'] },
+
+        'SentenciaAsig' : { 'id' : ['id' , ' ' , 'equal' , ' ' , 'Expresion'] },
+
+        'SentenciaLeer' : { 'leer' : ['leer' , ' ' , 'id'] },
+
+        'SentenciaMostrar' : { 'mostrar ' : ['mostrar ' , ' ' , 'Expresion'] },
+
+        'SentenciaFunc' : { 'func' : ['func' , ' ' , 'Proc' , ' ' , 'finfunc'] },
+
+        'Proc' : { 'id' : ['id' , ' ' , '(' , ' ' , 'ListaPar' , ' ' , ')' , ' ' , 'ListaSentencias'] }, 
+
+        'ListaPar' : { 'id' : ['id' , ' ' , 'ListaPar+'] },
+
+        'ListaPar+' : { ';' : [';' , ' ' , 'id' , ' ' , 'ListaPar+'],
+                       ')' : ['lambda'] } ,
+
+        'Expresion' : { 'id' : ['Expresion2' , ' ' , 'Expresion+'],
+                       '(' : ['Expresion2' , ' ' , 'Expresion+'],
+                       'num' : ['Expresion2' , ' ' , 'Expresion+'], },
+
+        'Expresion+' : { 'oprel' : ['oprel' , ' ' , 'Expresion2'],
+                        'entonces' : ['lambda'],
+                        ';' : ['lambda'], },    
+
+        'Expresion2' : { 'id' : ['Termino' , ' ' , 'Expresion2+'],
+                        '(' : ['Termino' , ' ' , 'Expresion2+'],
+                        'num' : ['Termino' , ' ' , 'Expresion2+'], }, 
+
+        'Expresion2+' : { 'opsum' : ['opsum' , ' ' , 'Expresion2+'],
+                        ';' : ['lambda'],
+                        'oprel' : ['lambda'],
+                        'entonces' : ['lambda'], },    #sus
+
+        'Termino' : { 'id' : ['Factor' , ' ' , 'Termino+'],
+                     '(' : ['Factor' , ' ' , 'Termino+'],
+                     'num' : ['Factor' , ' ' , 'Termino+'], },  
+
+        'Termino+' : { 'opmult' : ['opmult' , ' ' , 'Termino+'],
+                     'opsum' : ['lambda'] },
+
+        'Factor' : { 'id' : ['id'],
+                     '(' : ['(' , ' ' , 'Expresion' , ' ' , ')'],
+                     'num' : ['num'], },           
+
+}
 
 
 def parser(codigo):
-    # tablaProducciones = insertarDiccionario
     posicionActual=0
     t = codigo[posicionActual]
-    pila = ['#', "Programa"]
+    pila = ['#', "Program"]
     tope = pila[-1] #Accede al ultimo elemente de la lista
     while not(tope=='#') and not(t=='#'): #Termina cuando tope y t son '#'
         if tope in VT:
@@ -99,9 +134,4 @@ def parser(codigo):
                 return False
             
     return 'La cadena pertenece al lenguaje'
-print(parser('codigo'))
-        
-         
-
-
-
+print(parser(''))
