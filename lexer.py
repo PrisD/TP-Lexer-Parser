@@ -570,7 +570,7 @@ def afd_num (lexema):
     else:
         return ESTADO_NO_FINAL    
 
-TOKENS_POSIBLES = [("par abre", afd_par_abre),("par cierra", afd_par_cierra),("punto coma", afd_punto_coma),("finfunc", afd_finfunc),("entonces",afd_entonces),("mostrar", afd_mostrar),
+TOKENS_POSIBLES = [("(", afd_par_abre),(")", afd_par_cierra),(";", afd_punto_coma),("finfunc", afd_finfunc),("entonces",afd_entonces),("mostrar", afd_mostrar),
                    ("repetir",afd_repetir),("opsuma", afd_opsuma),("opmult", afd_opmult),("oprel", afd_oprel),("equal", afd_equal),("func", afd_func),("finsi", afd_finsi),
                     ("hasta", afd_hasta),("leer", afd_leer),("sino", afd_sino),("si", afd_si),("id", afd_id),("num", afd_num),("desconocido", afd_id)]
 

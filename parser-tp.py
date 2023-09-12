@@ -134,4 +134,5 @@ def parser(codigo):
                 return False
             
     return 'La cadena pertenece al lenguaje'
-print(parser(''))
+
+print(parser(lexerTp.lexer()))
