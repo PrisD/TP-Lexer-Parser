@@ -50,7 +50,7 @@ tablaProducciones = {
                             'mostrar' : ['ListaSentencias'],
                             'func' : ['ListaSentencias+'] },
 
-        'ListaSentencias+' : { ';' : [';' , ' ' , 'Sentencia' , ' ' , 'ListaSentencias+'],
+        'ListaSentencias+' : { ';' : [';' , 'Sentencia' , 'ListaSentencias+'],
                             '#' : ['lambda'] },
 
         'Sentencia' : { 'si' : ['SentenciaSi'],
@@ -60,54 +60,54 @@ tablaProducciones = {
                        'mostrar' : ['SentenciaMostrar'],
                        'func' : ['SentenciaFunc'] },
                         
-        'SentenciaSi' : { 'si' : ['si' , ' ' , 'Expresion' , ' ' , 'entonces' , ' ' , 'ListaSentencias' , ' ' , 'SentenciaSi+'] },     
+        'SentenciaSi' : { 'si' : ['si' , 'Expresion' , 'entonces' , 'ListaSentencias' , 'SentenciaSi+'] },     
 
-        'SentenciaSi+' : { 'sino' : ['sino' , ' ' , 'ListaSentencia' , ' ' , 'finsi'],
+        'SentenciaSi+' : { 'sino' : ['sino' , 'ListaSentencia' , 'finsi'],
                            'finsi' : ['finsi'] },
 
-        'SentenciaRepetir' : { 'repetir' : ['repetir' , ' ' , 'ListaSentencias' , ' ' , 'hasta' , ' ' , 'Expresion'] },
+        'SentenciaRepetir' : { 'repetir' : ['repetir' , 'ListaSentencias' , 'hasta' , 'Expresion'] },
 
-        'SentenciaAsig' : { 'id' : ['id' , ' ' , 'equal' , ' ' , 'Expresion'] },
+        'SentenciaAsig' : { 'id' : ['id' , 'equal' , 'Expresion'] },
 
-        'SentenciaLeer' : { 'leer' : ['leer' , ' ' , 'id'] },
+        'SentenciaLeer' : { 'leer' : ['leer' , 'id'] },
 
-        'SentenciaMostrar' : { 'mostrar ' : ['mostrar ' , ' ' , 'Expresion'] },
+        'SentenciaMostrar' : { 'mostrar' : ['mostrar' , 'Expresion'] },
 
-        'SentenciaFunc' : { 'func' : ['func' , ' ' , 'Proc' , ' ' , 'finfunc'] },
+        'SentenciaFunc' : { 'func' : ['func' , 'Proc' , 'finfunc'] },
 
-        'Proc' : { 'id' : ['id' , ' ' , '(' , ' ' , 'ListaPar' , ' ' , ')' , ' ' , 'ListaSentencias'] }, 
+        'Proc' : { 'id' : ['id' , '(' , 'ListaPar' , ')' , 'ListaSentencias'] }, 
 
-        'ListaPar' : { 'id' : ['id' , ' ' , 'ListaPar+'] },
+        'ListaPar' : { 'id' : ['id' , 'ListaPar+'] },
 
-        'ListaPar+' : { ';' : [';' , ' ' , 'id' , ' ' , 'ListaPar+'],
+        'ListaPar+' : { ';' : [';' , 'id' , 'ListaPar+'],
                        ')' : ['lambda'] } ,
 
-        'Expresion' : { 'id' : ['Expresion2' , ' ' , 'Expresion+'],
-                       '(' : ['Expresion2' , ' ' , 'Expresion+'],
-                       'num' : ['Expresion2' , ' ' , 'Expresion+'], },
+        'Expresion' : { 'id' : ['Expresion2' , 'Expresion+'],
+                       '(' : ['Expresion2' , 'Expresion+'],
+                       'num' : ['Expresion2' , 'Expresion+'], },
 
-        'Expresion+' : { 'oprel' : ['oprel' , ' ' , 'Expresion2'],
+        'Expresion+' : { 'oprel' : ['oprel' , 'Expresion2'],
                         'entonces' : ['lambda'],
                         ';' : ['lambda'], },    
 
-        'Expresion2' : { 'id' : ['Termino' , ' ' , 'Expresion2+'],
-                        '(' : ['Termino' , ' ' , 'Expresion2+'],
-                        'num' : ['Termino' , ' ' , 'Expresion2+'], }, 
+        'Expresion2' : { 'id' : ['Termino' , 'Expresion2+'],
+                        '(' : ['Termino' , 'Expresion2+'],
+                        'num' : ['Termino' , 'Expresion2+'], }, 
 
-        'Expresion2+' : { 'opsum' : ['opsum' , ' ' , 'Expresion2+'],
+        'Expresion2+' : { 'opsum' : ['opsum' , 'Expresion2+'],
                         ';' : ['lambda'],
                         'oprel' : ['lambda'],
                         'entonces' : ['lambda'], },    #sus
 
-        'Termino' : { 'id' : ['Factor' , ' ' , 'Termino+'],
-                     '(' : ['Factor' , ' ' , 'Termino+'],
-                     'num' : ['Factor' , ' ' , 'Termino+'], },  
+        'Termino' : { 'id' : ['Factor'  , 'Termino+'],
+                     '(' : ['Factor' , 'Termino+'],
+                     'num' : ['Factor' , 'Termino+'], },  
 
-        'Termino+' : { 'opmult' : ['opmult' , ' ' , 'Termino+'],
+        'Termino+' : { 'opmult' : ['opmult' , 'Termino+'],
                      'opsum' : ['lambda'] },
 
         'Factor' : { 'id' : ['id'],
-                     '(' : ['(' , ' ' , 'Expresion' , ' ' , ')'],
+                     '(' : ['(' , 'Expresion' , ')'],
                      'num' : ['num'], },           
 
 }
