@@ -31,7 +31,7 @@ con las mismas consideraciones que allí fue indicado.
 Por cuestiones de claridad, la gramática G=<VN, VT, P, S> se repite completa para
 """
 
-VNT = ["Program","ListaSentencias","ListaSentencias*","Sentencia","Sentencia+","SentenciaSi","SentenciaRepetir","SentenciaAsig","SentenciaLeer","SentenciaMostrar","SentenciaFunc","Proc","ListaPar","ListaPar+","Expresion","Expresion+","Expresion2","Expresion2+","Termino","Termino+","Factor"]
+VNT = ['Program','ListaSentencias','ListaSentencias+','Sentencia','SentenciaSi','SentenciaRepetir','SentenciaAsig','SentenciaLeer','SentenciaMostrar','SentenciaFunc','Proc','ListaPar','ListaPar+','Expresion','Expresion+','Expresion2','Expresion2+','Termino','Termino+','Factor']
 VT = lexer.TOKENS_POSIBLES
 
 
@@ -43,15 +43,15 @@ tablaProducciones = {
                     'mostrar' : ['ListaSentencias'],
                     'func' : ['ListaSentencias'] },
 
-        'ListaSentencias' : { 'si' : ['ListaSentencias'],
-                            'repetir' : ['ListaSentencias'],
-                            'id' : ['ListaSentencias'],
-                            'leer' : ['ListaSentencias'],
-                            'mostrar' : ['ListaSentencias'],
-                            'func' : ['ListaSentencias+'] },
+        'ListaSentencias' : { 'si' : ['Sentencia' , 'ListaSentencias+'],
+                            'repetir' : ['Sentencia' , 'ListaSentencias+'],
+                            'id' : ['Sentencia' , 'ListaSentencias+'],
+                            'leer' : ['Sentencia' , 'ListaSentencias+'],
+                            'mostrar' : ['Sentencia' , 'ListaSentencias+'],
+                            'func' : ['Sentencia' , 'ListaSentencias+'] },
 
         'ListaSentencias+' : { ';' : [';' , 'Sentencia' , 'ListaSentencias+'],
-                            '#' : ['lambda'] },
+                            '#' : [] },
 
         'Sentencia' : { 'si' : ['SentenciaSi'],
                        'repetir' : ['SentenciaRepetir'],
@@ -80,31 +80,31 @@ tablaProducciones = {
         'ListaPar' : { 'id' : ['id' , 'ListaPar+'] },
 
         'ListaPar+' : { ';' : [';' , 'id' , 'ListaPar+'],
-                       ')' : ['lambda'] } ,
+                       ')' : [] } ,
 
         'Expresion' : { 'id' : ['Expresion2' , 'Expresion+'],
                        '(' : ['Expresion2' , 'Expresion+'],
                        'num' : ['Expresion2' , 'Expresion+'], },
 
         'Expresion+' : { 'oprel' : ['oprel' , 'Expresion2'],
-                        'entonces' : ['lambda'],
-                        ';' : ['lambda'], },    
+                        'entonces' : [],
+                        ';' : [], },    
 
         'Expresion2' : { 'id' : ['Termino' , 'Expresion2+'],
                         '(' : ['Termino' , 'Expresion2+'],
                         'num' : ['Termino' , 'Expresion2+'], }, 
 
         'Expresion2+' : { 'opsum' : ['opsum' , 'Expresion2+'],
-                        ';' : ['lambda'],
-                        'oprel' : ['lambda'],
-                        'entonces' : ['lambda'], },    #sus
+                        ';' : [],
+                        'oprel' : [],
+                        'entonces' : [], },    #sus
 
         'Termino' : { 'id' : ['Factor'  , 'Termino+'],
                      '(' : ['Factor' , 'Termino+'],
                      'num' : ['Factor' , 'Termino+'], },  
 
         'Termino+' : { 'opmult' : ['opmult' , 'Termino+'],
-                     'opsum' : ['lambda'] },
+                     'opsum' : [] },
 
         'Factor' : { 'id' : ['id'],
                      '(' : ['(' , 'Expresion' , ')'],
@@ -118,7 +118,7 @@ codigo.append('#')
 def parser(codigo):
     posicionActual=0
     t = codigo[posicionActual]
-    pila = ['#', 'Program']
+    pila = ['#', "Program"]
     tope = pila[-1] #Accede al ultimo elemente de la lista
     while not(tope=='#') and not(t=='#'): #Termina cuando tope y t son '#'
         if tope in VT:
@@ -131,7 +131,8 @@ def parser(codigo):
             if  t in tablaProducciones[tope]: #Se fija si existe una produccion entre el no terminal actual en tope y el terminal al que apunta t
                 produccion = tablaProducciones[tope].get(t)
                 pila.pop()
-                pila.append(produccion) #Agrega al tope de la pila produccion
+                for token in produccion:
+                    pila.append(token) #Agrega al tope de la pila la produccion
             else:
                 return False
             

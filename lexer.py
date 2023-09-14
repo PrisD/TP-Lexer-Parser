@@ -612,5 +612,5 @@ def lexer(codigo):
         tokens.append(token)
     return tokens
 
-texto='mostrar x=2'
+texto='mostrar x=2;'
 #print(lexer(texto))
