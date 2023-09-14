@@ -112,7 +112,9 @@ tablaProducciones = {
 
 }
 
-codigo=[token for token, nombre in VT] #extrae los tokens de la tupla
+lexemas = lexer.lexer(lexer.texto)
+
+codigo=[token for token, nombre in lexemas] #extrae los tokens de la tupla
 codigo.append('#')
 
 def parser(codigo):
