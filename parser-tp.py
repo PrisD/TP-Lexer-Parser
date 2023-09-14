@@ -1,4 +1,4 @@
-import lexer as lexerTp
+import lexer as lexer
 
 """Implementar un analizador sintáctico descendente predictivo por
 procedimientos.
@@ -32,7 +32,7 @@ Por cuestiones de claridad, la gramática G=<VN, VT, P, S> se repite completa pa
 """
 
 VNT = ["Program","ListaSentencias","ListaSentencias*","Sentencia","Sentencia+","SentenciaSi","SentenciaRepetir","SentenciaAsig","SentenciaLeer","SentenciaMostrar","SentenciaFunc","Proc","ListaPar","ListaPar+","Expresion","Expresion+","Expresion2","Expresion2+","Termino","Termino+","Factor"]
-VT = lexerTp.TOKENS_POSIBLES
+VT = lexer.TOKENS_POSIBLES
 
 
 tablaProducciones = {
@@ -112,11 +112,13 @@ tablaProducciones = {
 
 }
 
+codigo=[token for token, nombre in VT] #extrae los tokens de la tupla
+codigo.append('#')
 
 def parser(codigo):
     posicionActual=0
     t = codigo[posicionActual]
-    pila = ['#', "Program"]
+    pila = ['#', 'Program']
     tope = pila[-1] #Accede al ultimo elemente de la lista
     while not(tope=='#') and not(t=='#'): #Termina cuando tope y t son '#'
         if tope in VT:
@@ -135,4 +137,5 @@ def parser(codigo):
             
     return 'La cadena pertenece al lenguaje'
 
-print(parser(lexerTp.lexer()))
+lexemas = lexer.lexer(lexer.texto)
+print(parser(lexemas))

@@ -612,4 +612,5 @@ def lexer(codigo):
         tokens.append(token)
     return tokens
 
-print(lexer('repetir 3<var hasta 656aux'))
+texto='mostrar x=2'
+#print(lexer(texto))
