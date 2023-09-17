@@ -126,7 +126,9 @@ def parser(codigo):
     t = codigo[posicionActual]
     pila = ['#', 'Program']
     tope = pila[-1] #Accede al ultimo elemente de la lista
-    while not(tope=='#') and not(t=='#'): #Termina cuando tope y t son '#'
+    while True: #Termina cuando tope y t son '#'
+        if tope=='#' and t=='#':
+            return 'La cadena pertenece'
         if tope in VT:
             if tope==t :
                 pila.pop() #Remueve el ultimo elemento de la lista
@@ -137,6 +139,7 @@ def parser(codigo):
         elif tope in VNT:
             if  t in tablaProducciones[tope]: #Se fija si existe una produccion entre el no terminal actual en tope y el terminal al que apunta t
                 produccion = tablaProducciones[tope].get(t)
+                print(tope, ' -> ', produccion)
                 produccion.reverse()
                 pila.pop()
                 for token in produccion:
@@ -144,6 +147,5 @@ def parser(codigo):
             else:
                 return ('No existe produccion entre ', tope, 'y ', t)  
         tope = pila[-1]
-    return 'La cadena pertenece al lenguaje'
-
+        
 print(parser(lexemas))
