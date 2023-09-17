@@ -51,7 +51,10 @@ tablaProducciones = {
                             'func' : ['Sentencia' , 'ListaSentencias+'] },
 
         'ListaSentencias+' : { ';' : [';' , 'Sentencia' , 'ListaSentencias+'],
-                            '#' : [] },
+                            '#' : [],
+                            'sino' : [],
+                            'finsi' : [],
+                            'hasta' : [], },
 
         'Sentencia' : { 'si' : ['SentenciaSi'],
                        'repetir' : ['SentenciaRepetir'],
@@ -120,7 +123,7 @@ codigo.append('#')
 def parser(codigo):
     posicionActual=0
     t = codigo[posicionActual]
-    pila = ['#', "Program"]
+    pila = ['#', 'Program']
     tope = pila[-1] #Accede al ultimo elemente de la lista
     while not(tope=='#') and not(t=='#'): #Termina cuando tope y t son '#'
         if tope in VT:
@@ -130,8 +133,10 @@ def parser(codigo):
             else:
                  return False
         elif tope in VNT:
+            print('funciona')
             if  t in tablaProducciones[tope]: #Se fija si existe una produccion entre el no terminal actual en tope y el terminal al que apunta t
                 produccion = tablaProducciones[tope].get(t)
+                produccion.reverse()
                 pila.pop()
                 for token in produccion:
                     pila.append(token) #Agrega al tope de la pila la produccion

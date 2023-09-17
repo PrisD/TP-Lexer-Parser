@@ -23,7 +23,7 @@ SentenciaLeer → leer id
 SentenciaMostrar → mostrar Expresion
 SentenciaFunc → func Proc finfunc
 Proc → id ( ListaPar ) ListaSetencias
-LispaPar → id ListaPar'
+ListaPar → id ListaPar'
 ListaPar' → ; id ListaPar'
 | lambda
 Expresion → Expresion2 Expresion'
@@ -44,8 +44,8 @@ Simbolos directrices de la gramatica:
 
 sd(p -> ls) = {si,repetir,id,leer,mostrar,func}
 sd(ls -> s ls') = {si,repetir,id,leer,mostrar,func}
-sd(ls' -> lambda) = vacio
-sd(ls' -> ; ls) = {;}
+sd(ls' -> lambda) = {#,hasta,sino,finsi,}
+sd(ls' -> ; s ls) = {;}
 sd(s -> ss) = {si}
 sd(s -> sr) = {repetir}
 sd(s -> sa) = {id}
