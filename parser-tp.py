@@ -32,7 +32,7 @@ Por cuestiones de claridad, la gramática G=<VN, VT, P, S> se repite completa pa
 """
 
 VNT = ['Program','ListaSentencias','ListaSentencias+','Sentencia','SentenciaSi','SentenciaRepetir','SentenciaAsig','SentenciaLeer','SentenciaMostrar','SentenciaFunc','Proc','ListaPar','ListaPar+','Expresion','Expresion+','Expresion2','Expresion2+','Termino','Termino+','Factor']
-VT = lexer.TOKENS_POSIBLES
+VT=[token for token, nombre in lexer.TOKENS_POSIBLES] #extrae los tokens de la tupla de la lista de Tokens Posibles
 
 
 tablaProducciones = {
@@ -100,27 +100,29 @@ tablaProducciones = {
         'Expresion2+' : { 'opsum' : ['opsum' , 'Expresion2+'],
                         ';' : [],
                         'oprel' : [],
-                        'entonces' : [], },    #sus
+                        'entonces' : [], },   
 
         'Termino' : { 'id' : ['Factor'  , 'Termino+'],
                      '(' : ['Factor' , 'Termino+'],
                      'num' : ['Factor' , 'Termino+'], },  
 
         'Termino+' : { 'opmult' : ['opmult' , 'Termino+'],
-                     'opsum' : [] },
+                     'opsum' : [],
+                     'oprel' : []  },
 
         'Factor' : { 'id' : ['id'],
                      '(' : ['(' , 'Expresion' , ')'],
-                     'num' : ['num'], },           
-
+                     'num' : ['num'], }           
 }
 
 lexemas = lexer.lexer(lexer.texto)
 
-codigo=[token for token, nombre in lexemas] #extrae los tokens de la tupla
-codigo.append('#')
+
 
 def parser(codigo):
+    i=0
+    codigo=[token for token, nombre in lexemas] #extrae los tokens de la tupla
+    codigo.append('#')
     posicionActual=0
     t = codigo[posicionActual]
     pila = ['#', 'Program']
@@ -130,10 +132,10 @@ def parser(codigo):
             if tope==t :
                 pila.pop() #Remueve el ultimo elemento de la lista
                 posicionActual = posicionActual + 1 
+                t = codigo[posicionActual]  
             else:
                  return False
         elif tope in VNT:
-            print('funciona')
             if  t in tablaProducciones[tope]: #Se fija si existe una produccion entre el no terminal actual en tope y el terminal al que apunta t
                 produccion = tablaProducciones[tope].get(t)
                 produccion.reverse()
@@ -141,9 +143,8 @@ def parser(codigo):
                 for token in produccion:
                     pila.append(token) #Agrega al tope de la pila la produccion
             else:
-                return False
-            
+                return ('No existe produccion entre ', tope, 'y ', t)  
+        tope = pila[-1]
     return 'La cadena pertenece al lenguaje'
 
-lexemas = lexer.lexer(lexer.texto)
 print(parser(lexemas))
