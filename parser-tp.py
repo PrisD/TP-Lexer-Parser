@@ -120,7 +120,6 @@ lexemas = lexer.lexer(lexer.texto)
 
 
 def parser(codigo):
-    i=0
     codigo=[token for token, nombre in lexemas] #extrae los tokens de la tupla
     codigo.append('#')
     posicionActual=0
