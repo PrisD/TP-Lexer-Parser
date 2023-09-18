@@ -91,7 +91,8 @@ tablaProducciones = {
 
         'Expresion+' : { 'oprel' : ['oprel' , 'Expresion2'],
                         'entonces' : [],
-                        ';' : [], },    
+                        ';' : [],
+                        '#' : [] },    
 
         'Expresion2' : { 'id' : ['Termino' , 'Expresion2+'],
                         '(' : ['Termino' , 'Expresion2+'],
@@ -100,7 +101,8 @@ tablaProducciones = {
         'Expresion2+' : { 'opsum' : ['opsum' , 'Expresion2+'],
                         ';' : [],
                         'oprel' : [],
-                        'entonces' : [], },   
+                        'entonces' : [],
+                        '#' : [] },   
 
         'Termino' : { 'id' : ['Factor'  , 'Termino+'],
                      '(' : ['Factor' , 'Termino+'],
@@ -108,14 +110,13 @@ tablaProducciones = {
 
         'Termino+' : { 'opmult' : ['opmult' , 'Termino+'],
                      'opsum' : [],
-                     'oprel' : []  },
+                     'oprel' : [],
+                     '#' : [] },
 
         'Factor' : { 'id' : ['id'],
                      '(' : ['(' , 'Expresion' , ')'],
                      'num' : ['num'], }           
 }
-
-lexemas = lexer.lexer(lexer.texto)
 
 
 
@@ -128,7 +129,7 @@ def parser(codigo):
     tope = pila[-1] #Accede al ultimo elemente de la lista
     while True: #Termina cuando tope y t son '#'
         if tope=='#' and t=='#':
-            return 'La cadena pertenece'
+            return 'La cadena pertenece al lenguaje'
         if tope in VT:
             if tope==t :
                 pila.pop() #Remueve el ultimo elemento de la lista
@@ -139,7 +140,7 @@ def parser(codigo):
         elif tope in VNT:
             if  t in tablaProducciones[tope]: #Se fija si existe una produccion entre el no terminal actual en tope y el terminal al que apunta t
                 produccion = tablaProducciones[tope].get(t)
-                print(tope, ' -> ', produccion)
+                print(tope, '->', ' '.join(produccion)) #Se muestran las derivaciones que se usan
                 produccion.reverse()
                 pila.pop()
                 for token in produccion:
@@ -147,5 +148,6 @@ def parser(codigo):
             else:
                 return ('No existe produccion entre ', tope, 'y ', t)  
         tope = pila[-1]
-        
+
+lexemas = lexer.lexer(lexer.texto)
 print(parser(lexemas))
