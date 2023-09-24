@@ -102,13 +102,13 @@ tablaProducciones = {
 
         'Expresion2' : { 'id' : ['Termino' , 'Expresion2+'],
                         '(' : ['Termino' , 'Expresion2+'],
-                        'num' : ['Termino' , 'Expresion2+'], }, 
+                        'num' : ['Termino' , 'Expresion2+'] }, 
 
         'Expresion2+' : { 'opsum' : ['opsum' , 'Expresion2+'],
                         ';' : [],
                         'oprel' : [],
                         'entonces' : [],
-                        '#' : [],'#' : [],
+                        '#' : [],
                         ')' : [],
                         'sino' : [],
                         'finsi' : [],
@@ -137,16 +137,17 @@ tablaProducciones = {
 }
 
 
-
 def parser(codigo):
     codigo=[token for token, nombre in lexemas] #extrae los tokens de la tupla
     codigo.append('#')
     posicionActual=0
+    ListaProducciones =[] # Lista donde se almacenarán las producciones utilizadas en caso de pertener al lenguaje
     t = codigo[posicionActual]
     pila = ['#', 'Program']
     tope = pila[-1] #Accede al ultimo elemente de la lista
     while True: #Termina cuando tope y t son '#'
         if tope=='#' and t=='#':
+            print(ListaProducciones)
             return 'La cadena pertenece al lenguaje'
         if tope in VT:
             if tope==t :
@@ -158,14 +159,16 @@ def parser(codigo):
         elif tope in VNT:
             if  t in tablaProducciones[tope]: #Se fija si existe una produccion entre el no terminal actual en tope y el terminal al que apunta t
                 produccion = tablaProducciones[tope].get(t)
-                print(tope, '->', ' '.join(produccion)) #Se muestran las derivaciones que se usan
+                ListaProducciones.append(tope + ' -> ' + ' '.join(produccion)) #Se acumulan las producciones utilizadas en la lista
                 produccion.reverse()
                 pila.pop()
                 for token in produccion:
                     pila.append(token) #Agrega al tope de la pila la produccion
             else:
-                return ('No existe produccion entre ', tope, 'y ', t)  
+                print(ListaProducciones)
+                return ('No existe produccion entre ', tope, t)
         tope = pila[-1]
 
 lexemas = lexer.lexer(lexer.texto)
 print(parser(lexemas))
+
