@@ -1,4 +1,5 @@
 import lexer as lexer
+from collections import OrderedDict
 
 """Implementar un analizador sintáctico descendente predictivo por
 procedimientos.
@@ -31,9 +32,8 @@ con las mismas consideraciones que allí fue indicado.
 Por cuestiones de claridad, la gramática G=<VN, VT, P, S> se repite completa para
 """
 
-VNT = ['Program','ListaSentencias','ListaSentencias+','Sentencia','SentenciaSi','SentenciaRepetir','SentenciaAsig','SentenciaLeer','SentenciaMostrar','SentenciaFunc','Proc','ListaPar','ListaPar+','Expresion','Expresion+','Expresion2','Expresion2+','Termino','Termino+','Factor']
+VNT = ['Program','ListaSentencias','ListaSentencias+','Sentencia','SentenciaSi','SentenciaSi+','SentenciaRepetir','SentenciaAsig','SentenciaLeer','SentenciaMostrar','SentenciaFunc','Proc','ListaPar','ListaPar+','Expresion','Expresion+','Expresion2','Expresion2+','Termino','Termino+','Factor']
 VT=[token for token, nombre in lexer.TOKENS_POSIBLES] #extrae los tokens de la tupla de la lista de Tokens Posibles
-
 
 tablaProducciones = {
         'Program' : { 'si' : ['ListaSentencias'],
@@ -84,11 +84,11 @@ tablaProducciones = {
         'ListaPar' : { 'id' : ['id' , 'ListaPar+'] },
 
         'ListaPar+' : { ';' : [';' , 'id' , 'ListaPar+'],
-                       ')' : [] } ,
+                       ')' : [] },
 
         'Expresion' : { 'id' : ['Expresion2' , 'Expresion+'],
                        '(' : ['Expresion2' , 'Expresion+'],
-                       'num' : ['Expresion2' , 'Expresion+'], },
+                       'num' : ['Expresion2' , 'Expresion+'] },
 
         'Expresion+' : { 'oprel' : ['oprel' , 'Expresion2'],
                         'entonces' : [],
@@ -99,10 +99,10 @@ tablaProducciones = {
                         'hasta' : [],
                         ')' : [],
                         'finfunc' : [] },    
-
-        'Expresion2' : { 'id' : ['Termino' , 'Expresion2+'],
+       
+        'Expresion2' :  {'id' : ['Termino' , 'Expresion2+'],
                         '(' : ['Termino' , 'Expresion2+'],
-                        'num' : ['Termino' , 'Expresion2+'] }, 
+                        'num' : ['Termino' , 'Expresion2+']}, 
 
         'Expresion2+' : { 'opsum' : ['opsum' , 'Expresion2+'],
                         ';' : [],
@@ -136,15 +136,14 @@ tablaProducciones = {
                      'num' : ['num'], }           
 }
 
-
 def parser(codigo):
     codigo=[token for token, nombre in lexemas] #extrae los tokens de la tupla
     codigo.append('#')
     posicionActual=0
-    ListaProducciones =[] # Lista donde se almacenarán las producciones utilizadas en caso de pertener al lenguaje
+    ListaProducciones =[] # Lista donde se almacenarán las producciones utilizadas en caso de pertenecer al lenguaje
     t = codigo[posicionActual]
     pila = ['#', 'Program']
-    tope = pila[-1] #Accede al ultimo elemente de la lista
+    tope = pila[-1] #Accede al ultimo elemento de la 
     while True: #Termina cuando tope y t son '#'
         if tope=='#' and t=='#':
             print(ListaProducciones)
@@ -157,7 +156,7 @@ def parser(codigo):
             else:
                  return False
         elif tope in VNT:
-            if  t in tablaProducciones[tope]: #Se fija si existe una produccion entre el no terminal actual en tope y el terminal al que apunta t
+            if  t in tablaProducciones[tope]: #Se fija si existe una produccion entre el no terminal actual en tope y el terminal al que apunta t             
                 produccion = tablaProducciones[tope].get(t)
                 ListaProducciones.append(tope + ' -> ' + ' '.join(produccion)) #Se acumulan las producciones utilizadas en la lista
                 produccion.reverse()
@@ -166,9 +165,8 @@ def parser(codigo):
                     pila.append(token) #Agrega al tope de la pila la produccion
             else:
                 print(ListaProducciones)
-                return ('No existe produccion entre ', tope, t)
+                return ('No existe produccion entre ', tope, t) 
         tope = pila[-1]
 
 lexemas = lexer.lexer(lexer.texto)
 print(parser(lexemas))
-

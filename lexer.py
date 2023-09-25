@@ -612,5 +612,5 @@ def lexer(codigo):
         tokens.append(token)
     return tokens
 
-texto='si x=3 entonces y equal 3; finsi;'
+texto='mostrar x'
 print(texto)
