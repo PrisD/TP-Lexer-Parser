@@ -66,7 +66,7 @@ tablaProducciones = {
                         
         'SentenciaSi' : { 'si' : ['si' , 'Expresion' , 'entonces' , 'ListaSentencias' , 'SentenciaSi+'] },     
 
-        'SentenciaSi+' : { 'sino' : ['sino' , 'ListaSentencia' , 'finsi'],
+        'SentenciaSi+' : { 'sino' : ['sino' , 'ListaSentencias' , 'finsi'],
                            'finsi' : ['finsi'] },
 
         'SentenciaRepetir' : { 'repetir' : ['repetir' , 'ListaSentencias' , 'hasta' , 'Expresion'] },
@@ -152,7 +152,7 @@ def parser(codigo):
             if tope==t :
                 pila.pop() #Remueve el ultimo elemento de la lista
                 posicionActual = posicionActual + 1 
-                t = codigo[posicionActual]  
+                t = codigo[posicionActual] 
             else:
                  return False
         elif tope in VNT:
@@ -163,7 +163,6 @@ def parser(codigo):
                 for token in reversed(produccion):
                     pila.append(token) #Agrega al tope de la pila la produccion
             else:
-                print(ListaProducciones)
                 return ('No existe produccion entre ', tope, t) 
         tope = pila[-1]
 
