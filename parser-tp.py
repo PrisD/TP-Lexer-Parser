@@ -159,9 +159,8 @@ def parser(codigo):
             if  t in tablaProducciones[tope]: #Se fija si existe una produccion entre el no terminal actual en tope y el terminal al que apunta t             
                 produccion = tablaProducciones[tope].get(t)
                 ListaProducciones.append(tope + ' -> ' + ' '.join(produccion)) #Se acumulan las producciones utilizadas en la lista
-                produccion.reverse()
                 pila.pop()
-                for token in produccion:
+                for token in reversed(produccion):
                     pila.append(token) #Agrega al tope de la pila la produccion
             else:
                 print(ListaProducciones)
