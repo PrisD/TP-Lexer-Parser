@@ -104,7 +104,7 @@ tablaProducciones = {
                         '(' : ['Termino' , 'Expresion2+'],
                         'num' : ['Termino' , 'Expresion2+']}, 
 
-        'Expresion2+' : { 'opsum' : ['opsum' , 'Expresion2+'],
+        'Expresion2+' : { 'opsum' : ['opsum' , 'Termino', 'Expresion2+'],
                         ';' : [],
                         'oprel' : [],
                         'entonces' : [],
@@ -119,7 +119,7 @@ tablaProducciones = {
                      '(' : ['Factor' , 'Termino+'],
                      'num' : ['Factor' , 'Termino+'], },  
 
-        'Termino+' : { 'opmult' : ['opmult' , 'Termino+'],
+        'Termino+' : { 'opmult' : ['opmult' , 'Factor' , 'Termino+'],
                      'opsum' : [],
                      'oprel' : [],
                      '#' : [],
@@ -146,7 +146,7 @@ def parser(codigo):
     tope = pila[-1] #Accede al ultimo elemento de la 
     while True: #Termina cuando tope y t son '#'
         if tope=='#' and t=='#':
-            print(ListaProducciones)
+            print('La lista de Producciones utilizadas es: ' , ListaProducciones)
             return 'La cadena pertenece al lenguaje'
         if tope in VT:
             if tope==t :
@@ -154,7 +154,7 @@ def parser(codigo):
                 posicionActual = posicionActual + 1 
                 t = codigo[posicionActual] 
             else:
-                 return False
+                 return 'La cadena no pertenece al lenguaje'
         elif tope in VNT:
             if  t in tablaProducciones[tope]: #Se fija si existe una produccion entre el no terminal actual en tope y el terminal al que apunta t             
                 produccion = tablaProducciones[tope].get(t)
@@ -163,7 +163,7 @@ def parser(codigo):
                 for token in reversed(produccion):
                     pila.append(token) #Agrega al tope de la pila la produccion
             else:
-                return ('No existe produccion entre ', tope, t) 
+                return ('La cadena no pertenece al lenguaje') 
         tope = pila[-1]
 
 lexemas = lexer.lexer(lexer.texto)

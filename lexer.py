@@ -571,7 +571,7 @@ def afd_num (lexema):
         return ESTADO_NO_FINAL    
 
 TOKENS_POSIBLES = [("(", afd_par_abre),(")", afd_par_cierra),(";", afd_punto_coma),("finfunc", afd_finfunc),("entonces",afd_entonces),("mostrar", afd_mostrar),
-                   ("repetir",afd_repetir),("opsuma", afd_opsuma),("opmult", afd_opmult),("oprel", afd_oprel),("equal", afd_equal),("func", afd_func),("finsi", afd_finsi),
+                   ("repetir",afd_repetir),("opsum", afd_opsuma),("opmult", afd_opmult),("oprel", afd_oprel),("equal", afd_equal),("func", afd_func),("finsi", afd_finsi),
                     ("hasta", afd_hasta),("leer", afd_leer),("sino", afd_sino),("si", afd_si),("id", afd_id),("num", afd_num),("desconocido", afd_id)]
 
 def lexer(codigo):
@@ -612,5 +612,5 @@ def lexer(codigo):
         tokens.append(token)
     return tokens
 
-texto='si x=3 entonces mostrar x sino mostrar y finsi'
-print(lexer(texto))
+texto='leer si entonces finsi repetir hasta'
+# print(lexer(texto))
